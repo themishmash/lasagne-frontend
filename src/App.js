@@ -10,12 +10,12 @@ class App extends React.Component {
 
   async componentDidMount() {
     //1. make get req to api http://localhost:5000/lasagne(fetch)
-    const response = await fetch ("http://localhost:5000/lasagne")
+    const response = await fetch (process.env.REACT_APP_BACKEND_URL + "/lasagne")
     //2. put result from api call into state
    const data = await response.json()
    console.log(data)
    this.setState({
-     data
+     data: data
    })
     //3. this will make render run again and dom can be updated
     //but remember render runs first, then comp did mount, then render again! 
