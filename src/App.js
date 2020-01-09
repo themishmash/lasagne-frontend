@@ -1,26 +1,42 @@
+//do everything in app component
+
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  state = {
+    data: null
+  }
+
+  async componentDidMount() {
+    //1. make get req to api http://localhost:5000/lasagne(fetch)
+    const response = await fetch ("http://localhost:5000/lasagne")
+    //2. put result from api call into state
+   const data = await response.json()
+   console.log(data)
+   this.setState({
+     data
+   })
+    //3. this will make render run again and dom can be updated
+    //but remember render runs first, then comp did mount, then render again! 
+
+
+  }
+  render () {
+    const {data} = this.state
+    return (
+    <div>
+      <h1>lasagne app</h1>
+      <h3>all lasagnes</h3>
+      {data ? data.map((lasagne, index) => {
+        return (
+          <div key={index}>
+            <h4>{lasagne.name}</h4>
+          </div>
+        )
+      }) : null}
+    </div>)
+  };
 }
 
 export default App;
